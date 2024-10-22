@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Cast from "../src/components/Cast";
+import { changeTitle } from "../src/function/changeTitle";
 
 const MovieDetail = () => {
+
   const [movieDetail, setMovieDetail] = useState({});
   let { id } = useParams();
   console.log(`id: ${id}`);
@@ -19,8 +21,7 @@ const MovieDetail = () => {
   }, []);
 
   console.log("movieDetails: ", movieDetail);
-  // if (movieDetails.cast) alert("CAST EXISTS");
-  // else alert("CAST DOES NOT EXIST");
+  changeTitle(`🎞️${movieDetail.title_long} 상세 보기🎞️`);
 
   return (
     <>
@@ -30,13 +31,16 @@ const MovieDetail = () => {
         <div>🥰좋아요: {movieDetail.like_count}</div>
         <div>✨평점: {movieDetail.rating}</div>
         <ul className="cast-container">
-         {Array.isArray(movieDetail.cast) ? movieDetail.cast.map((cast, index) => 
-         <Cast key={index} 
-              coverImage={cast.url_small_image}
-              name={cast.name}
-              characterName={cast.character_name}
-         />
-        ) : null}
+          {Array.isArray(movieDetail.cast)
+            ? movieDetail.cast.map((cast, index) => (
+                <Cast
+                  key={index}
+                  coverImage={cast.url_small_image}
+                  name={cast.name}
+                  characterName={cast.character_name}
+                />
+              ))
+            : null}
         </ul>
         <br />
       </div>
